@@ -69,7 +69,7 @@ COVERAGE_TOOL?=${BEAT_GOPATH}/bin/gotestcover
 COVERAGE_TOOL_REPO?=github.com/pierrre/gotestcover
 TESTIFY_TOOL_REPO?=github.com/stretchr/testify/assert
 NOW=$(shell date -u '+%Y-%m-%dT%H:%M:%SZ')
-GOBUILD_FLAGS?=-ldflags "-X github.com/elastic/beats/libbeat/version.buildTime=$(NOW) -X github.com/elastic/beats/libbeat/version.commit=$(COMMIT_ID)"
+GOBUILD_FLAGS?=-v -mod=vendor -ldflags "-X github.com/elastic/beats/libbeat/version.buildTime=$(NOW) -X github.com/elastic/beats/libbeat/version.commit=$(COMMIT_ID)"
 GOIMPORTS=goimports
 GOIMPORTS_REPO?=github.com/elastic/beats/vendor/golang.org/x/tools/cmd/goimports
 GOIMPORTS_LOCAL_PREFIX?=github.com/elastic
@@ -267,7 +267,7 @@ load-tests: ## @testing Runs load tests
 
 # Sets up the virtual python environment
 .PHONY: python-env
-python-env: export CRYPTOGRAPHY_DONT_BUILD_RUST=1 
+python-env: export CRYPTOGRAPHY_DONT_BUILD_RUST=1
 python-env: ${ES_BEATS}/libbeat/tests/system/requirements.txt
 	@test -e ${PYTHON_ENV}/bin/activate || ${PYTHON_EXE} -m venv ${VENV_PARAMS} ${PYTHON_ENV}
 	@. ${PYTHON_ENV}/bin/activate && pip install ${PIP_INSTALL_PARAMS} -q --upgrade pip ; \
